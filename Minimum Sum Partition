@@ -1,0 +1,94 @@
+Given an array, the task is to divide it into two sets S1 and S2 such that the absolute difference between their sums is minimum.
+
+Input:
+The first line contains an integer 'T' denoting the total number of test cases. In each test cases, the first line contains an integer 'N' denoting the size of array. The second line contains N space-separated integers A1, A2, ..., AN denoting the elements of the array.
+
+
+Output:
+In each seperate line print minimum absolute difference.
+
+
+Constraints:
+1<=T<=30
+1<=N<=50
+1<=A[I]<=50
+
+
+Example:
+Input:
+2
+4
+1 6 5 11
+4
+36 7 46 40
+
+Output : 
+1
+23
+
+Explaination :Subset1 = {1, 5, 6}, sum of Subset1 = 12
+Subset2 = {11},       sum of Subset2 = 11
+
+Solution:
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		  
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int sum, tempbest=1111111,temp=0, bestmin=1111111111;
+        
+        
+        int T = sc.nextInt();
+        for (int t=0;t<T;t++){
+//System.out.println("\ntest case #"+ t);
+            int N = sc.nextInt();
+            sum = 0;
+            bestmin = 1111111111;
+      
+            int[] array = new int[N];
+            int[][] dp = new int[N][N];
+            
+            for(int n=0;n<N;n++){
+                array[n]=sc.nextInt();
+                sum += array[n];
+                
+            }
+    //        System.out.println("\nSum: "+sum);
+             Arrays.sort(array);       
+            for(int j=0;j<N;j++){
+                dp[0][j]=array[j];
+                if (bestmin>Math.abs(2*array[j]-sum)){
+                    bestmin = Math.abs(2*array[j]-sum);
+               //               System.out.println(bestmin);
+                }
+            }
+             for (int i=1;i<N;i++){
+                tempbest = 11111111;
+                for(int j=0;j<N;j++){
+                    for(int k = 0; k<N;k++)
+                        if(j!=k){
+                            temp=dp[i-1][j]+array[k];
+                            if (tempbest >Math.abs(2*temp-sum))
+                               dp[i][j]=temp; 
+                            if (bestmin >Math.abs(2*temp-sum)){
+                                dp[i][j]=temp;
+                                bestmin =Math.abs(2*temp-sum);
+                              //  System.out.println(i+ " row: "+bestmin);
+                            }
+                        }        
+                }
+    }       
+        /*    for(int i=0; i<N;i++){
+                System.out.println();
+                for(int j=0;j<N;j++)
+                    System.out.print("  "+ dp[i][j]);
+                 System.out.println("");*/
+              System.out.println(bestmin);}
+}
+	}
